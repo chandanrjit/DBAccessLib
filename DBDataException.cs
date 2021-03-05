@@ -7,7 +7,7 @@ using System.Text;
 /// </summary>
 namespace DBHelperpoc
 {
-    public class DBDataException : Exception
+     class DBDataException : Exception
     {
         #region 
         public DBDataException() : base() { }
