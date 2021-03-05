@@ -15,37 +15,10 @@ namespace DBHelperpoc
         /// <summary>
         /// Default Timeout (seconds)
         /// </summary>
-        public const int Timeout_Default = 3600;
+        public const int Default_Timeout = 3600;
         #endregion
 
-        #region "SQLwithParameters"
-
-        /// <summary>
-        /// Execute SQL Query with parameters with no return of data or values
-        /// </summary>
-        /// <param name="connectionString">Connection String</param>
-        /// <param name="SQL">SQL Statement</param>
-        /// <param name="parameters">Parameters</param>
-        /// <param name="TimeOut">Timeout  seconds, with default</param>
-        /// <returns>Rows affected</returns>
-        public static int ExecuteQueryWithParametersNoReturn(string connectionString, string SQL, List<SqlParameter> parameters, int TimeOut = Timeout_Default)
-        {
-            System.Data.CommandType CmdType = System.Data.CommandType.Text;
-            int iRows = 0;
-
-            using (var conDB = new System.Data.SqlClient.SqlConnection(connectionString))
-            {
-                conDB.Open();
-                using (SqlCommand command = new SqlCommand(SQL, conDB))
-                {
-                    command.CommandType = CmdType;
-                    command.CommandTimeout = TimeOut;
-                    if (parameters != null) foreach (var p in parameters) command.Parameters.Add(p);
-                    var irows = command.ExecuteNonQuery();
-                }
-            }
-            return iRows;
-        }
+        #region "SQLwithParameters"      
 
         /// <summary>
         /// Execute SQL Query with parameters with no return of data or values - Transaction & Rollback
@@ -55,7 +28,7 @@ namespace DBHelperpoc
         /// <param name="parameters">Parameters</param>
         /// <param name="TimeOut">Timeout  seconds, with default</param>
         /// <returns>Rows affected</returns>
-        public static int ExecuteQueryNonWithParametersNoReturn(string connectionString, string SQL, List<SqlParameter> parameters, int TimeOut = Timeout_Default)
+        public static int ExecuteQueryNonWithParametersNoReturn(string connectionString, string SQL, List<SqlParameter> parameters, int TimeOut = Default_Timeout)
         {
             System.Data.CommandType CmdType = System.Data.CommandType.Text;
             int iRows = 0;
@@ -73,7 +46,7 @@ namespace DBHelperpoc
                             command.Transaction = trn;
                             command.CommandType = CmdType;
                             command.CommandTimeout = TimeOut;
-                            if (parameters != null) foreach (var p in parameters) command.Parameters.Add(p);
+                            if (parameters != null) foreach (var param in parameters) command.Parameters.Add(param);
                             iRows = command.ExecuteNonQuery();
                             // End the tansaction 
                             trn.Commit();
@@ -102,7 +75,7 @@ namespace DBHelperpoc
         /// <param name="parameters">Parameters</param>
         /// <param name="TimeOut">Timeout  seconds, with default</param>
         /// <returns>DataTable</returns>
-        public static DataTable ExecuteQueryWithParametersToDataTable(string connectionString, string SQL, List<SqlParameter> parameters, int TimeOut = Timeout_Default)
+        public static DataTable ExecuteQueryWithParametersToDataTable(string connectionString, string SQL, List<SqlParameter> parameters, int TimeOut = Default_Timeout)
         {
             System.Data.CommandType CmdType = System.Data.CommandType.Text;
             DataTable dt = null;
@@ -114,7 +87,7 @@ namespace DBHelperpoc
                 {
                     command.CommandType = CmdType;
                     command.CommandTimeout = TimeOut;
-                    if (parameters != null) foreach (var p in parameters) command.Parameters.Add(p);
+                    if (parameters != null) foreach (var param in parameters) command.Parameters.Add(param);
                     var rd = command.ExecuteReader();
                     dt = new DataTable();
                     dt.Load(rd);
@@ -132,7 +105,7 @@ namespace DBHelperpoc
         /// <param name="parameters"></param>
         /// <param name="TimeOut"></param>
         /// <returns>T</returns>
-        public static T ExecuteQueryWithParametersToScaler<T>(string connectionString, string SQL, List<SqlParameter> parameters, int TimeOut = Timeout_Default)
+        public static T ExecuteQueryWithParametersToScaler<T>(string connectionString, string SQL, List<SqlParameter> parameters, int TimeOut = Default_Timeout)
         {
             System.Data.CommandType CmdType = System.Data.CommandType.Text;
             T data = default(T);
@@ -145,7 +118,7 @@ namespace DBHelperpoc
                     {
                         command.CommandType = CmdType;
                         command.CommandTimeout = TimeOut;
-                        if (parameters != null) foreach (var p in parameters) command.Parameters.Add(p);
+                        if (parameters != null) foreach (var param in parameters) command.Parameters.Add(param);
                         var rd = command.ExecuteScalar();
                         data = (T)rd;
                     }
@@ -172,7 +145,7 @@ namespace DBHelperpoc
         /// <param name="parameters">Stored Procedure Arguments</param>
         /// <param name="TimeOut">Timeout  seconds, with default</param>
         /// <returns>Datatable or null</returns>
-        public static DataTable ExecuteSPWithDataTable(string connectionString, string ProcedureName, List<SqlParameter> parameters, int TimeOut = Timeout_Default)
+        public static DataTable ExecuteSPWithDataTable(string connectionString, string ProcedureName, List<SqlParameter> parameters, int TimeOut = Default_Timeout)
         {
             DataTable dt = null;
 
@@ -186,7 +159,7 @@ namespace DBHelperpoc
                     command.CommandText = ProcedureName;
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandTimeout = TimeOut;
-                    if (parameters != null) foreach (var p in parameters) command.Parameters.Add(p);
+                    if (parameters != null) foreach (var param in parameters) command.Parameters.Add(param);
 
                     SqlDataAdapter da = new SqlDataAdapter(command);
                     DataSet ds = new DataSet();
@@ -207,7 +180,7 @@ namespace DBHelperpoc
         /// <param name="parameters">Stored Procedure Arguments</param>
         /// <param name="TimeOut">Timeout  seconds, with default</param>
         /// <returns>Rows affected (not always correct)</returns>
-        public static int ExecuteSPWithNoReturn(string connectionString, string ProcedureName, List<SqlParameter> parameters, int TimeOut = Timeout_Default)
+        public static int ExecuteSPWithNoReturn(string connectionString, string ProcedureName, List<SqlParameter> parameters, int TimeOut = Default_Timeout)
         {
             int rows = -1;
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -220,7 +193,7 @@ namespace DBHelperpoc
                     command.CommandText = ProcedureName;
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandTimeout = TimeOut;
-                    if (parameters != null) foreach (var p in parameters) command.Parameters.Add(p);
+                    if (parameters != null) foreach (var param in parameters) command.Parameters.Add(param);
                     rows = command.ExecuteNonQuery();
                 }
                 conn.Close();
@@ -238,7 +211,7 @@ namespace DBHelperpoc
         /// <param name="parameters">Stored Procedure Arguments</param>
         /// <param name="TimeOut">Timeout  seconds, with default</param>
         /// <returns></returns>
-        public static T ExecuteSPWithParametersToScaler<T>(string connectionString, string ProcedureName, List<SqlParameter> parameters, int TimeOut = Timeout_Default)
+        public static T ExecuteSPWithParametersToScaler<T>(string connectionString, string ProcedureName, List<SqlParameter> parameters, int TimeOut = Default_Timeout)
         {
             T data = default(T);
 
@@ -252,7 +225,7 @@ namespace DBHelperpoc
                     command.CommandText = ProcedureName;
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandTimeout = TimeOut;
-                    if (parameters != null) foreach (var p in parameters) command.Parameters.Add(p);
+                    if (parameters != null) foreach (var param in parameters) command.Parameters.Add(param);
                     data = (T)command.ExecuteScalar();
                 }
                 conn.Close();
