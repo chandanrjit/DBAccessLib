@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
 using System.Data;
-
+using System.Data.SqlClient;
+using System.Text;
+/// <summary>
+///  Exception Handling 
+/// </summary>
 namespace DBHelperpoc
 {
-   public class DBDataException : Exception
+    public class DBDataException : Exception
     {
-        #region Constructors
+        #region 
         public DBDataException() : base() { }
         public DBDataException(string message) : base(message) { }
         public DBDataException(string message, Exception innerException) : base(message, innerException) { }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DBHelperpoc
 {
@@ -37,7 +33,7 @@ namespace DBHelperpoc
         {
             LastException = ex;
 
-            // TODO: Implement an exception publisher here
+            // TODO: Implement an exception publisher here - No time to do 
             System.Diagnostics.Debug.WriteLine(ex.ToString());
         }
 
@@ -54,7 +50,6 @@ namespace DBHelperpoc
             {
                 LastException = CreateDbException(ex, cmd, null);
 
-                // TODO: Implement an exception publisher here
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
         }
