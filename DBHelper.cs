@@ -9,7 +9,7 @@ using System.Data.SqlClient;
 /// </summary>
 namespace DBHelperpoc
 {
-    public static class DBhelper
+    public sealed class DBhelper
     {
         #region "Constants"
         /// <summary>
