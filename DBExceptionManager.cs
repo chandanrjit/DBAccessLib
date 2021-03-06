@@ -58,10 +58,10 @@ namespace DBHelperpoc
         #region CreateDbException Method
         public virtual DBDataException CreateDbException(Exception ex, SqlCommand cmd, string exceptionMsg)
         {
-            DBDataException exc;
+            DBDataException excep;
             exceptionMsg = string.IsNullOrEmpty(exceptionMsg) ? string.Empty : exceptionMsg + " - ";
 
-            exc = new DBDataException(exceptionMsg + ex.Message, ex)
+            excep = new DBDataException(exceptionMsg + ex.Message, ex)
             {
                 ConnectionString = cmd.Connection.ConnectionString,
                 Database = cmd.Connection.Database,
@@ -70,7 +70,7 @@ namespace DBHelperpoc
                 WorkstationId = Environment.MachineName
             };
 
-            return exc;
+            return excep;
         }
         #endregion
     }

@@ -120,7 +120,6 @@ namespace DBHelperpoc
             return sb.ToString();
         }
         #endregion
-
         #region IsDatabaseSpecificError Method
         protected virtual bool IsDatabaseSpecificError(Exception ex)
         {
@@ -166,7 +165,6 @@ namespace DBHelperpoc
             return sb.ToString();
         }
         #endregion
-
         #region Override of ToString Method
         /// <summary>
         /// Gathers all information from the exception information gathered and returns a string
